@@ -32,16 +32,16 @@ namespace WebApplication2
                 if (response.IsSuccessStatusCode)
                 {
                     var users = await response.Content.ReadAsAsync<List<User>>(); //Deserializes JSON response into a list of User objects
-                    GridViewUsers.DataSource = users; //Assigns the list to your GridView
-                    GridViewUsers.DataBind(); //Tells the GridView to render the data as HTML 
+                    RepeaterUsers.DataSource = users; //Assigns the list to your GridView
+                    RepeaterUsers.DataBind(); //Tells the GridView to render the data as HTML 
                 }
                 else
                 {
                     // In case of error, show message
-                    GridViewUsers.DataSource = new List<User> {
+                    RepeaterUsers.DataSource = new List<User> {
                         new User { Id = 0, Username = "Error", Email = "API not reachable" }
                     };
-                    GridViewUsers.DataBind();
+                    RepeaterUsers.DataBind();
                 }
             }
 
@@ -85,6 +85,43 @@ namespace WebApplication2
                 }
             }
 
+        }
+        protected async void createUserButton(object sender, EventArgs e)
+        {
+            string username = Username.Text.Trim();
+            string email = Email.Text.Trim();
+            if(string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email))
+            {
+                createErrorMessage.Text = "please enter both username and email";
+                createSuccessMessage.Text = "";
+                return;
+            }
+            var newUser = new User
+            {
+                Username = username,
+                Email = email,
+            };
+            createErrorMessage.Text = "";
+            await createNewUser(newUser);
+        }
+        private async Task createNewUser(User newUser)
+        {
+            string apiUrl = "http://localhost:52210/api/users";
+            using (HttpClient client = new HttpClient()) 
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = await client.PostAsJsonAsync(apiUrl, newUser);
+                if (response.IsSuccessStatusCode)
+                {
+                    await LoadUsers();
+                    createSuccessMessage.Text = "User created successfully";
+                }
+                else
+                {
+                    createErrorMessage.Text = $"error: {response.StatusCode}";
+                }
+            }
         }
     }
 }

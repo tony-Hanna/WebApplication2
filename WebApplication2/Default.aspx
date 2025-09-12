@@ -10,7 +10,15 @@
     <form id="form1" runat="server">
         <div>
             <h2>Users from API</h2>
-            <asp:GridView ID="GridViewUsers" runat="server" AutoGenerateColumns="true"></asp:GridView>
+            <asp:Repeater ID="RepeaterUsers" runat="server">
+                <ItemTemplate>
+                    <div style="border:1px solid #ccc; border-radius:8px; padding:12px; margin:8px; width:200px; display:inline-block;">
+                        <h3><%# Eval("Username") %></h3>
+                        <h3><%# Eval("Id") %></h3>
+                        <p><b>Email:</b> <%# Eval("Email") %></p>
+                    </div>
+                </ItemTemplate>
+            </asp:Repeater>
             <hr />
 
             <h2>Search user by ID</h2>
@@ -21,6 +29,17 @@
             <h2>search result</h2>
             <asp:GridView ID="GridViewOneUser" runat="server" AutoGenerateColumns="true"></asp:GridView>
             <asp:Label ID="errorMessage" runat="server" ForeColor="Red"></asp:Label>
+
+            <h2>Create new User</h2>
+            <asp:TextBox ID="Username" runat="server" placeholder="Enter username"></asp:TextBox>
+            <asp:TextBox ID="Email" runat="server" placeholder="Enter email"></asp:TextBox>
+            <asp:Button ID="addUser" runat="server" Text="Create User" OnClick="createUserButton"/>
+            <asp:Label ID="createErrorMessage" runat="server" ForeColor="Red"></asp:Label>
+            <asp:Label ID="createSuccessMessage" runat="server" ForeColor="Green"></asp:Label>
+
+
+
+
         </div>
     </form>
 </body>
