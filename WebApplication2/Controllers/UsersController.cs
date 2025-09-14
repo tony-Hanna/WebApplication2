@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Web.Http;
-using System.Web.UI.WebControls;
 using WebApplication2.Models;
 
 namespace WebApplication2.Controllers

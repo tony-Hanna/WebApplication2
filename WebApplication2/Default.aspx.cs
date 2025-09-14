@@ -118,6 +118,8 @@ namespace WebApplication2
                 if (response.IsSuccessStatusCode)
                 {
                     await LoadUsers();
+                    Username.Text = "";
+                    Email.Text = "";
                     createSuccessMessage.Text = "User created successfully";
                 }
                 else
@@ -153,7 +155,7 @@ namespace WebApplication2
                 if (response.IsSuccessStatusCode)
                 {
                     repeaterErrorMessage.Text = "";
-                    await LoadUsers(); // refresh list after edit
+                    await LoadUsers(); 
                     EditPanel.Visible = false;
                 }
                 else
