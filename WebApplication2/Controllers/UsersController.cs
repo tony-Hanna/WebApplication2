@@ -110,22 +110,21 @@ namespace WebApplication2.Controllers
         [HttpPut]
         public IHttpActionResult updateUser(int id, User user) 
         {
-            if (user == null)
+            if (string.IsNullOrEmpty(user.Username))
             {
                 return BadRequest("Invalid user data");
             }
+
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE USERS SET Username=@username, Email=@email WHERE Id=@id;", conn);
+                SqlCommand cmd = new SqlCommand("UPDATE USERS SET Username=@username WHERE Id=@id;", conn);
                 cmd.Parameters.AddWithValue("@username", user.Username);
-                cmd.Parameters.AddWithValue("@email", user.Email);
                 cmd.Parameters.AddWithValue("@id", id);
                 int rowsUpdate = cmd.ExecuteNonQuery();
                 if (rowsUpdate > 0)
                 {
-                    user.Id = id;
-                    return Ok(user);
+                    return Ok("User updated successfully"); 
                 }
                 else
                 {

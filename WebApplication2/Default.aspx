@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" Async="true" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="WebApplication2.Default" %>
+﻿ <%@ Page Language="C#" Async="true" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="WebApplication2.Default" %>
 
 
 <!DOCTYPE html>
@@ -10,12 +10,22 @@
     <form id="form1" runat="server">
         <div>
             <h2>Users from API</h2>
-            <asp:Repeater ID="RepeaterUsers" runat="server">
+            <asp:Repeater ID="RepeaterUsers" runat="server" OnItemCommand="RepeaterUsers_ItemCommand">
                 <ItemTemplate>
                     <div style="border:1px solid #ccc; border-radius:8px; padding:12px; margin:8px; width:200px; display:inline-block;">
                         <h3><%# Eval("Username") %></h3>
                         <h3><%# Eval("Id") %></h3>
                         <p><b>Email:</b> <%# Eval("Email") %></p>
+                     
+
+                        <asp:Button ID="btnDelete" runat="server" 
+                                    CommandArgument='<%# Eval("Id") %>' 
+                                    CommandName="DeleteUser"
+                                    Text="Delete"/>
+                        <asp:Button ID="btnEdit" runat="server" 
+                                    CommandArgument='<%# Eval("Id") + "," + Eval("Username") %>'
+                                    CommandName="EditUser"
+                                    Text="Edit"/>
                     </div>
                 </ItemTemplate>
             </asp:Repeater>
@@ -36,10 +46,14 @@
             <asp:Button ID="addUser" runat="server" Text="Create User" OnClick="createUserButton"/>
             <asp:Label ID="createErrorMessage" runat="server" ForeColor="Red"></asp:Label>
             <asp:Label ID="createSuccessMessage" runat="server" ForeColor="Green"></asp:Label>
+            <asp:Label ID="repeaterErrorMessage" runat="server" ForeColor="Red"></asp:Label>
 
-
-
-
+            <asp:Panel ID="EditPanel" runat="server" Visible="false" CssClass="edit-form">
+                <asp:TextBox ID="txtUserId" runat="server" ReadOnly="true" /><br />
+                <asp:TextBox ID="txtUsername" runat="server" /><br />
+                <asp:Button ID="submitButton" runat="server" text="submit" OnClick="submit"/>
+                <asp:Button ID="cancelButton" runat="server" text="cancel" OnClick="cancel"/>
+           </asp:Panel>
         </div>
     </form>
 </body>

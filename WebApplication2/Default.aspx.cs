@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 using WebApplication2.Models; // your User model namespace
 
 namespace WebApplication2
@@ -123,5 +126,74 @@ namespace WebApplication2
                 }
             }
         }
-    }
+ 
+        public void cancel(object sender, EventArgs e)
+        {
+            EditPanel.Visible = false;
+        }
+        public async void submit(object sender, EventArgs e)
+        {
+            int userId = Convert.ToInt32(txtUserId.Text);
+            string username = txtUsername.Text;
+
+            string apiUrl = $"http://localhost:52210/api/users/{userId}";
+
+            var updatedUser = new User
+            {
+                Username = username
+            };
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = await client.PutAsJsonAsync(apiUrl, updatedUser);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    repeaterErrorMessage.Text = "";
+                    await LoadUsers(); // refresh list after edit
+                    EditPanel.Visible = false;
+                }
+                else
+                {
+                    repeaterErrorMessage.Text = "Error updating user: " + response.StatusCode;
+                }
+            }
+        }
+
+        protected async void RepeaterUsers_ItemCommand(object sender, RepeaterCommandEventArgs e)
+        { 
+            if(e.CommandName == "DeleteUser")
+            {
+                int userId = Convert.ToInt32(e.CommandArgument);
+                string apiUrl = $"http://localhost:52210/api/users/{userId}";
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.DeleteAsync(apiUrl);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        await LoadUsers();
+                    }
+                    else
+                    {
+                        repeaterErrorMessage.Text = "Error performing action";
+                    }
+                }
+            }
+            else if(e.CommandName == "EditUser")
+            {
+                EditPanel.Visible = true;   
+                string[] args = e.CommandArgument.ToString().Split(',');
+                int userId = int.Parse(args[0]);
+                string username = args[1];
+
+                txtUserId.Text = userId.ToString();
+                txtUsername.Text = username;
+            }
+           
+            }
+
+        }
 }
