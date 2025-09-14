@@ -37,10 +37,13 @@ namespace WebApplication2
                     var users = await response.Content.ReadAsAsync<List<User>>(); //Deserializes JSON response into a list of User objects
                     RepeaterUsers.DataSource = users; //Assigns the list to your GridView
                     RepeaterUsers.DataBind(); //Tells the GridView to render the data as HTML 
+                    NoUsersLabel.Visible = users.Count == 0;
                 }
                 else
                 {
                     // In case of error, show message
+                    NoUsersLabel.Text = "Error fetching users";
+                    NoUsersLabel.Visible = true;
                     RepeaterUsers.DataSource = new List<User> {
                         new User { Id = 0, Username = "Error", Email = "API not reachable" }
                     };
