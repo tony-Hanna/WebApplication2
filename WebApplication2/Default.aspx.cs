@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using WebApplication2.Models; // your User model namespace
+using WebApplication2.Models; 
 
 namespace WebApplication2
 {
@@ -22,7 +22,7 @@ namespace WebApplication2
 
         private async Task LoadUsers()
         {
-            string apiUrl = "http://localhost:52210/api/users"; // replace with your port
+            string apiUrl = "http://localhost:52210/api/users"; 
 
             using (HttpClient client = new HttpClient())
             {
@@ -30,7 +30,7 @@ namespace WebApplication2
                 client.DefaultRequestHeaders.Accept.Add( //tells API: I want JSON back
                     new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpResponseMessage response = await client.GetAsync(apiUrl); //sends get request
+                HttpResponseMessage response = await client.GetAsync(apiUrl); 
 
                 if (response.IsSuccessStatusCode)
                 {

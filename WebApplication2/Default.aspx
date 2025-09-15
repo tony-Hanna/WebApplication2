@@ -15,7 +15,7 @@
                     <asp:TextBox ID="Email" runat="server" CssClass="input-text" placeholder="Enter email"></asp:TextBox>
                     <asp:Button ID="addUser" runat="server" Text="Create User" OnClick="createUserButton" CssClass="btn btn-success" />
                 </div>
-                 <asp:Label ID="createErrorMessage" runat="server" CssClass="error-message"></asp:Label>
+                   <asp:Label ID="createErrorMessage" runat="server" CssClass="error-message"></asp:Label>
                 <asp:Label ID="createSuccessMessage" runat="server" CssClass="success-message"></asp:Label>
              <h2>Users from API</h2>
             <asp:Label ID="NoUsersLabel" runat="server" CssClass="empty-message" Visible="false"
@@ -42,9 +42,9 @@
                 </asp:Repeater>
 
                 <hr />
-                 <asp:Panel ID="EditPanel" runat="server" Visible="false" CssClass="edit-form">
-                 <h3>Edit User</h3>
-                 <asp:TextBox ID="txtUserId" runat="server" ReadOnly="true" CssClass="input-text" /><br />
+                 <asp:Panel ID="EditPanel" runat="server" Visible="false" CssClass="edit-form"> 
+                 <span>Edit User with ID:</span>
+                 <asp:Label ID="txtUserId" runat="server" ReadOnly="true" CssClass="id-info"></asp:Label><br />
                  <asp:TextBox ID="txtUsername" runat="server" CssClass="input-text" /><br />
                  <asp:Button ID="submitButton" runat="server" Text="Submit" OnClick="submit" CssClass="btn btn-success" />
                  <asp:Button ID="cancelButton" runat="server" Text="Cancel" OnClick="cancel" CssClass="btn btn-secondary" />
@@ -54,11 +54,8 @@
                     <asp:TextBox ID="TextUserId" runat="server" CssClass="input-text" placeholder="Enter user ID"></asp:TextBox>
                     <asp:Button ID="searchUser" runat="server" Text="Search" OnClick="searchButton" CssClass="btn btn-primary" />
                 </div>
-
-                <h2>Search result</h2>
                 <asp:GridView ID="GridViewOneUser" runat="server" AutoGenerateColumns="true" CssClass="gridview"></asp:GridView>
                 <asp:Label ID="errorMessage" runat="server" CssClass="error-message"></asp:Label>
-
 
                 <asp:Label ID="repeaterErrorMessage" runat="server" CssClass="error-message"></asp:Label>
   

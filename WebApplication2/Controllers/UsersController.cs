@@ -41,7 +41,7 @@ namespace WebApplication2.Controllers
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("SELECT Id, Username, Email FROM Users WHERE Id = @id", conn); //used @id instead of concatenation because it will be vulnerable to sql injecting
-                cmd.Parameters.AddWithValue("@id", id); //replace @id with the value of the C# variable id
+                cmd.Parameters.AddWithValue("@id", id);
 
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
